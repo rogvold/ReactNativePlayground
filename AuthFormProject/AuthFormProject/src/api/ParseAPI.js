@@ -3,6 +3,8 @@
  * Created by sabir on 29.11.16.
  */
 
+ 'use strict';
+
 import * as constants from '../constants/AccountsConstants.js'
 import Parse from 'parse/react-native'
 import CommonHelper from '../helpers/CommonHelper.js'
@@ -34,8 +36,9 @@ const ParseAPI = {
         }
     },
 
-    fetchCurrentUserAsPromise () {
-        var currentUser = ParseReact.currentUserAsync;
+    async fetchCurrentUserAsPromise () {
+        // var currentUser = ParseReact.currentUserAsync;
+        var currentUser = await Parse.User.currentAsync();
         console.log('fetchCurrentUserAsPromise: currentUser = ', currentUser);
         // var currentUser = Parse.User.current();
         // var currentUser = Parse.User.currentUserAsync();
@@ -45,6 +48,7 @@ const ParseAPI = {
         }
         var self = this;
         return new Promise((resolve, reject) => {
+            console.log('fetching current user');
             currentUser.fetch().then(function(user){
                 resolve(self.transformUser(user));
             }, function(err){

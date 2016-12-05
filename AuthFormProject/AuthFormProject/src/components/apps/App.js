@@ -10,7 +10,8 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  ActivityIndicator
 } from 'react-native';
 
 //apps
@@ -56,7 +57,8 @@ class App extends React.Component {
 
             return (
                 <View style={{justifyContent: 'center', marginTop: 30}} >
-                    <Text style={{fontSize: 30}} >
+                    <ActivityIndicator />
+                    <Text style={{fontSize: 20, textAlign: 'center'}} >
                         loading...
                     </Text>
                 </View>

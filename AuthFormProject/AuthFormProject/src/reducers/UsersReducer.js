@@ -83,7 +83,7 @@ const UsersReducer =  (state = initialState, action = {}) => {
                 return {...state, loading: true, initialized: false}
 
             case types.INITIALIZE_AUTH_FAIL:
-                return {...state, loading: false, initialized: false}
+                return {...state, loading: false, initialized: true}
 
             case types.INITIALIZE_AUTH_SUCCESS:
                 var usersMap = Object.assign({}, state.usersMap, (action.user == undefined ) ? {} : {[action.user.id]: action.user});

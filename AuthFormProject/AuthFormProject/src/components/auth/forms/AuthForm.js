@@ -70,7 +70,7 @@ export default class AuthForm extends Component {
                 Have an account? Sign in!
               </Text>
             }
-            
+
         </View>
 
       </View>

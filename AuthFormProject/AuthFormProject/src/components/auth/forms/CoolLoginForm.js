@@ -71,7 +71,9 @@ export default class CoolLoginForm extends Component {
 
               {this.props.loading == true ?
                 <View style={styles.button}>
-                    <ActivityIndicator style={styles.loadingIndicator}  />
+                    <ActivityIndicator
+                        color={'white'}
+                        style={styles.loadingIndicator}  />
                 </View> :
                 <TouchableHighlight style={styles.button}
                   onPress={this.onPress} underlayColor='#99d9f4'>
