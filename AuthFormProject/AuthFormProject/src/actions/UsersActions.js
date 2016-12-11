@@ -83,6 +83,7 @@ let onLoggedOut = () => {
 //thunk
 export function logOut(){
     return (dispatch, getState) => {
+      
         var usersState = getState().users;
         console.log('usersState = ', usersState);
         if (usersState.currentUser == undefined){
@@ -93,6 +94,7 @@ export function logOut(){
             () => dispatch(onLoggedOut()),
             () => dispatch(onLogoutFail())
         )
+        
     }
 }
 
