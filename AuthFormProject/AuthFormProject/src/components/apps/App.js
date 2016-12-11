@@ -17,7 +17,6 @@ import {
 //apps
 import LoginApp from './LoginApp.js';
 
-import UserInfoPanel from '../user/UserInfoPanel';
 
 class App extends React.Component {
 
@@ -48,7 +47,7 @@ class App extends React.Component {
         console.log('getUserRoute occured');
 
         return (
-            <UserInfoPanel />
+            <LoginApp />
         );
     }
 
