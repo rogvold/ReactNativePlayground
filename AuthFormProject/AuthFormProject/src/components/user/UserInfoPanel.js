@@ -38,7 +38,7 @@ class UserInfoPanel extends Component {
     return (
       <View style={styles.container}>
 
-        <Text>current user is {user.email}</Text>
+        <Text style={{textAlign: 'center'}} >current user is {user.email}</Text>
 
         <Button title={'Logout'}
             color="#841584"
@@ -52,7 +52,7 @@ class UserInfoPanel extends Component {
 
 const styles = StyleSheet.create({
   container: {
-      paddingTop: 40
+      padding: 20
   },
 
 });

@@ -11,13 +11,16 @@ import {
   StyleSheet,
   Text,
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  StatusBar
 } from 'react-native';
 
 //apps
 import LoginApp from './LoginApp.js';
 
 import UserInfoPanel from '../user/UserInfoPanel';
+
+import AppNavigator from '../navigator/AppNavigator'
 
 class App extends React.Component {
 
@@ -43,12 +46,19 @@ class App extends React.Component {
 
     }
 
-    getUserRoute() {
+    getUserContent() {
 
-        console.log('getUserRoute occured');
 
         return (
-            <UserInfoPanel />
+            <View style={{flex: 1}} >
+                  <StatusBar
+                      translucent={true}
+                      backgroundColor="rgba(0, 0, 0, 0.2)"
+                      barStyle="light-content"
+                     />
+
+                   <AppNavigator />
+            </View>
         );
     }
 
@@ -73,7 +83,7 @@ class App extends React.Component {
             );
         }
 
-        return this.getUserRoute();
+        return this.getUserContent();
     }
 
 }

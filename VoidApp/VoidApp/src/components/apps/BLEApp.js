@@ -18,6 +18,8 @@ import * as constants from '../../constants/BluetoothConstants'
 
 import base64 from 'base64-js'
 
+import BLEHelper from '../../helpers/BLEHelper'
+
 class BLEApp extends Component {
 
   constructor(){
@@ -43,12 +45,30 @@ class BLEApp extends Component {
         map[id] = [];
       }
       var val = d.value;
-      map[id].push(d.value);
+
       var byteArr = base64.toByteArray(val);
-      console.log('byteArr = ', byteArr);
+      // console.log('byteArr = ', byteArr);
+      var hData = BLEHelper.getDataFromStringData(byteArr, val);
+      console.log('hData = ', hData);
+
+      map[id].push(hData);
+
       this.setState({
           dataMap: map
       });
+  }
+
+  getLastHeartRate = (sensorId) => {
+      var map = this.state.dataMap;
+      if (map == undefined){
+        return undefined;
+      }
+      let arr = map[sensorId];
+      if (arr == undefined || arr.length == 0){
+        return undefined;
+      }
+      var d = arr[arr.length - 1];
+      return d.hr;
   }
 
   consumePolar = (bleData) => {
@@ -136,7 +156,14 @@ class BLEApp extends Component {
       }
   }
 
-
+  getAllConnectedSensors = () => {
+      let cMap = this.state.connectedDevicesMap;
+      let arr = [];
+      for (var key in cMap){
+          arr.push(cMap[key]);
+      }
+      return arr;
+  }
 
   connectSensorClick = () => {
       let {selectedSensor} = this.state;
@@ -177,24 +204,6 @@ class BLEApp extends Component {
         });
   }
 
-  read = (device) => {
-        // const serviceUUID = '180F';
-
-        let {characteristics} = device;
-
-        // this.readFromAll(device);
-
-        // console.log('read: device = ', device);
-        //
-        BleManager.read(device.id, constants.HEART_RATE_SERVICE_UUID, constants.HEART_RATE_CHARACTERISTIC_UUID)
-            .then((data) => {
-        // Success code
-            console.log('read data = ', data);
-        }).catch((error) => {
-          // Failure code
-          console.log(error);
-        });
-  }
 
   startAllNotifications = (device, characteristics) => {
       for (var i in characteristics){
@@ -213,24 +222,7 @@ class BLEApp extends Component {
       }
   }
 
-  readFromAll = (device) => {
-      console.log('readFromAll: device = ', device);
-      let characteristics = device.characteristics;
-      for (var i in characteristics){
-        var sUUId = characteristics[i].service;
-        var cUUId = characteristics[i].characteristic;
 
-        ((suid, cuid) => {
-          BleManager.read(device.id, suid, cuid)
-            .then((data) => {
-              console.log('--read data, sUUId, cUUId = ', data, ' | sUUID=', suid, ' | cUUID=', cuid);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        })(sUUId, cUUId)
-      }
-  }
 
   consumeConnectedDevice = (dev) => {
       let map = this.state.connectedDevicesMap;
@@ -283,17 +275,10 @@ class BLEApp extends Component {
 
         let selectedSensor = this.state.selectedSensor;
 
-
+        let connectedSensors = this.getAllConnectedSensors();
 
         return (
             <View style={container}>
-
-              <Text>
-                dataMap =
-              </Text>
-              <Text>
-                {JSON.stringify(dataMap)}
-              </Text>
 
               <TouchableHighlight style={{padding:20, backgroundColor:'#ccc'}} onPress={() => this.toggleScanning(!this.state.scanning) }>
                   <Text>Scan Bluetooth ({this.state.scanning ? 'on' : 'off'})</Text>
@@ -312,17 +297,17 @@ class BLEApp extends Component {
 
               <View>
                   <Text style={{textAlign: 'center', padding: 10}} >
-                      Connected devices:
+                      Connected sensors:
                   </Text>
                   <View>
-                      {connectedDevices.map((dev, k) =>{
+                      {connectedSensors.map((dev, k) =>{
                           var key = 'dev_' + k;
+                          var hr = this.getLastHeartRate(dev.id);
 
                           return (
                               <TouchableHighlight key={key} style={{padding: 20, borderRadius: 4, borderWidth: 1}}
-                                    onPress={() => {this.read(dev)}}
                                >
-                                  <Text>{dev.name}</Text>
+                                  <Text>{dev.name} - {hr} bpm</Text>
                               </TouchableHighlight>
                           );
                       })}

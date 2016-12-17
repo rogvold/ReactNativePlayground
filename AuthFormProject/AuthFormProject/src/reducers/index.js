@@ -5,7 +5,9 @@
 import { combineReducers } from 'redux';
 
 import UsersReducer from './UsersReducer.js';
+import NavigationReducer from './NavigationReducer.js';
 
 export const reducer = combineReducers({
-    users: UsersReducer
+    users: UsersReducer,
+    navigation: NavigationReducer
 });
