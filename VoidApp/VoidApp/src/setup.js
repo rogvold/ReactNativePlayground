@@ -31,8 +31,8 @@ const loggerMiddleware = createLogger()
 
 const store = createStore(
     reducer,
-    applyMiddleware(thunkMiddleware)
-    // applyMiddleware(thunkMiddleware, loggerMiddleware)
+    // applyMiddleware(thunkMiddleware)
+    applyMiddleware(thunkMiddleware, loggerMiddleware)
 )
 // ParseAPI.initParse();
 

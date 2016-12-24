@@ -11,13 +11,16 @@ import {
   StyleSheet,
   Text,
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  StatusBar
 } from 'react-native';
 
 //apps
 import IndexApp from './IndexApp.js';
 
 import DevApp from './DevApp.js';
+
+import AppNavigator from '../navigator/AppNavigator'
 
 class App extends React.Component {
 
@@ -53,11 +56,18 @@ class App extends React.Component {
           );
       }
       return (
-          <IndexApp />
+          <View style={{flex: 1}} >
+              <StatusBar
+                  translucent={true}
+                  backgroundColor="rgba(0, 0, 0, 0.2)"
+                  barStyle="light-content"
+              />
+              <AppNavigator />
+          </View>
       );
     }
-
 }
+
 
 const mapStateToProps = (state) => {
     return {

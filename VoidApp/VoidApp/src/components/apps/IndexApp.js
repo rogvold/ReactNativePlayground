@@ -52,8 +52,6 @@ class IndexApp extends React.Component {
 
             <SensorsListPanel />
 
-
-
             <BluetoothComponent />
 
           </View>
