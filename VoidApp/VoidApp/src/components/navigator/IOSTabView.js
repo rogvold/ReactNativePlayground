@@ -26,6 +26,7 @@ import {
 //apps
 import IndexApp from '../apps/IndexApp'
 import SensorsApp from '../apps/SensorsApp'
+import TestsApp from '../apps/TestsApp'
 
 
 
@@ -58,7 +59,9 @@ class IOSTabView extends Component {
     }
 
     render = () => {
-        console.log('rendering IOSTabView');
+        if (__DEV__){
+            console.log('rendering IOSTabView');
+        }
         return (
             <TabBarIOS  tintColor={Colors.darkText} >
 
@@ -79,6 +82,17 @@ class IOSTabView extends Component {
                     onPress={this.onTabSelect.bind(this, 'sensors')} >
 
                     <SensorsApp
+                        navigator={this.props.navigator}
+                    />
+
+                </TabBarIOS.Item>
+
+                <TabBarIOS.Item
+                    title="Tests"
+                    selected={this.props.tab === 'tests'}
+                    onPress={this.onTabSelect.bind(this, 'tests')} >
+
+                    <TestsApp
                         navigator={this.props.navigator}
                     />
 

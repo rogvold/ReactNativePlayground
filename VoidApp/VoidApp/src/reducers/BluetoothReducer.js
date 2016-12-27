@@ -29,10 +29,14 @@ let removeFromConnectedSensorsMap = (oldConnectedSensorsMap, sensorId) => {
 }
 
 let consumeData = (oldDataMap, sensorId, data) => {
+    if (__DEV__){
+        console.log('consumeData: data = ', data);
+    }
     var dataMap = Object.assign({}, oldDataMap);
     if (dataMap[sensorId] == undefined){
         dataMap[sensorId] = [];
     }
+    data.t = (new Date()).getTime();
     dataMap[sensorId].push(data);
     return dataMap;
 }

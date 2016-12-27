@@ -37,6 +37,9 @@ export function loadSensors(){
 
 //saving
 let saveSensors_ = () => {
+    if (__DEV__){
+        console.log('saveSensors_ occured');
+    }
     return {
         type: types.SAVE_SENSORS
     }
@@ -67,19 +70,39 @@ export function saveSensor(data){
     if (__DEV__){
         console.log('saveSensor: data', data);
     }
-
     return (dispatch, getState) => {
+
+        if (data == undefined || data.id == undefined){
+            return new Promise.resolve(saveSensorsFail());
+        }
+
         let map = getState().sensors.sensorsMap;
         let s = (map[data.id] == undefined) ? {} : map[data.id];
         let d = Object.assign({}, s, data);
-        let newMap = Object.assign({}, map, {[d.id]: d});
-        if (data == undefined || data.id == undefined){
-            return new Promise.reject(saveSensorsFail());
+        if (d.displayName == undefined){
+            d.displayName = d.name;
         }
+        let newMap = Object.assign({}, map, {[d.id]: d});
+
         saveSensors_();
         return StorageHelper.saveSensors(newMap).then(
             ss => dispatch(saveSensorsSuccess(newMap)),
             error => dispatch(saveSensorsFail(error))
         )
+    }
+}
+export function createSensor(data){
+    if (__DEV__){
+        console.log('createSensor: data', data);
+    }
+    return (dispatch, getState) => {
+        if (data == undefined || data.id == undefined){
+            return new Promise.resolve(saveSensorsFail());
+        }
+        let map = getState().sensors.sensorsMap;
+        if (map[data.id] != undefined){
+            return new Promise.resolve(saveSensorsSuccess(map));
+        }
+        return dispatch(saveSensor(data));
     }
 }

@@ -43,7 +43,9 @@ class SensorsList extends React.Component {
         discoveredSensorsMap: PropTypes.object,
 
         sensorsIds: PropTypes.array.isRequired,
-        onSensorClick: PropTypes.func
+        onSensorClick: PropTypes.func,
+
+        sensorsMap: PropTypes.object
     }
 
     state = {
@@ -64,9 +66,18 @@ class SensorsList extends React.Component {
 
     }
 
+
     getSensor = (sensorId) => {
+        const {sensorsMap} = this.props;
         let map = this.props.discoveredSensorsMap;
-        return map[sensorId];
+        let sensor = map[sensorId];
+        if (sensorsMap[sensorId] != undefined){
+            sensor = Object.assign({}, sensor, {displayName: sensorsMap[sensorId].displayName});
+        }else {
+            sensor = Object.assign({}, sensor, {displayName: sensor.name});
+        }
+
+        return sensor;
     }
 
     getSensorStatus = (sensorId) => {
@@ -81,6 +92,8 @@ class SensorsList extends React.Component {
         }, this)
         return sensors;
     }
+
+
 
     onSensorClick = (sensor) => {
         if (__DEV__){
@@ -116,7 +129,7 @@ class SensorsList extends React.Component {
                             <View >
                               <TouchableHighlight onPress={onClick}  >
                                   <Text style={{fontSize: 18}} >
-                                    {sensor.name}
+                                    {sensor.displayName}
                                   </Text>
                               </TouchableHighlight>
 
@@ -169,7 +182,8 @@ const mapStateToProps = (state) => {
     return {
         sensorsConnectionStatusMap: state.bluetooth.sensorsConnectionStatusMap,
         discoveredSensorsMap: state.bluetooth.discoveredSensorsMap,
-        sensorsIds: getAllSensorsIds(state)
+        sensorsIds: getAllSensorsIds(state),
+        sensorsMap: state.sensors.sensorsMap
     }
 }
 

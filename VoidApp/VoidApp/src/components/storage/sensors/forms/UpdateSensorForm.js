@@ -31,7 +31,7 @@ const UpdateSensorForm = (props) => {
             <Text style={styles.label}>
                 Sensor name
             </Text>
-            <Field name={'name'}
+            <Field name={'displayName'}
                    style={styles.input}
                    component={TextField} placeholder={'For example, "polar #23"'} />
 

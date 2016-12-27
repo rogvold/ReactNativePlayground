@@ -22,6 +22,8 @@ import DevApp from './DevApp.js';
 
 import AppNavigator from '../navigator/AppNavigator'
 
+import BluetoothComponent from '../bluetooth/BluetoothComponent'
+
 class App extends React.Component {
 
     static defaultProps = {
@@ -57,11 +59,15 @@ class App extends React.Component {
       }
       return (
           <View style={{flex: 1}} >
+
               <StatusBar
                   translucent={true}
                   backgroundColor="rgba(0, 0, 0, 0.2)"
                   barStyle="light-content"
               />
+
+              <BluetoothComponent />
+
               <AppNavigator />
           </View>
       );

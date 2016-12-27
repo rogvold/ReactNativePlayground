@@ -105,7 +105,9 @@ class BLEApp extends Component {
   }
 
   handleDiscoverPeripheral = (data) => {
-      console.log('Got ble data', data);
+      if (__DEV__){
+          console.log('Got ble data', data);
+      }
       // this.setState({ ble: data })
       this.consumePolar(data);
   }
@@ -123,7 +125,9 @@ class BLEApp extends Component {
   }
 
   handleCharacteristicChange = (d) => {
-      console.log('handleCharacteristicChange: d = ', d);
+      if (__DEV__){
+          console.log('handleCharacteristicChange: d = ', d);
+      }
       this.consumeData(d);
   }
 
@@ -142,7 +146,9 @@ class BLEApp extends Component {
       if (Platform.OS === 'android' && Platform.Version >= 23) {
           PermissionsAndroid.checkPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
               if (result) {
-                console.log("Permission is OK");
+                if (__DEV__){
+                    console.log("Permission is OK");
+                }
               } else {
                 PermissionsAndroid.requestPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
                   if (result) {

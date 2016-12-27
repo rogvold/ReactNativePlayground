@@ -114,7 +114,9 @@ class AppNavigator extends React.Component {
     }
 
     renderScene = (route, navigator) => {
-        console.log('renderScene: route, navigator = ', route, navigator);
+        if (__DEV__){
+            console.log('renderScene: route, navigator = ', route, navigator);
+        }
 
         // if (route.login) {
         //     console.log('rendering login app');

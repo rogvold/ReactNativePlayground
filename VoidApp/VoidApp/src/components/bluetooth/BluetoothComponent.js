@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import BleManager from 'react-native-ble-manager';
 
 import * as bActions from '../../actions/BluetoothActions';
+import * as sensorsActions from '../../actions/SensorsActions';
 
 import BLEHelper from '../../helpers/BLEHelper'
 
@@ -83,13 +84,19 @@ class BluetoothComponent extends React.Component {
         if (Platform.OS === 'android' && Platform.Version >= 23) {
             PermissionsAndroid.checkPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
                 if (result) {
-                  console.log("Permission is OK");
+                  if (__DEV__){
+                      console.log("Permission is OK");
+                  }
                 } else {
                   PermissionsAndroid.requestPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
                     if (result) {
-                      console.log("User accept");
+                      if (__DEV__){
+                          console.log("User accept");
+                      }
                     } else {
-                      console.log("User refuse");
+                      if (__DEV__){
+                          console.log("User refuse");
+                      }
                     }
                   });
                 }
@@ -143,9 +150,20 @@ const mapStateToProps = (state) => {
     }
 }
 
+let onDiscovered = (data) => {
+    return dispatch => {
+        let {id, name} = data;
+        dispatch(sensorsActions.createSensor({id: id, name: name}))
+        dispatch(bActions.onDiscovered(data));
+    }
+}
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(bActions, dispatch)
+    return Object.assign({}, bindActionCreators(bActions, dispatch), {
+        onDiscovered: (data) => {
+            return dispatch(onDiscovered(data));
+        }
+    })
 }
 
 

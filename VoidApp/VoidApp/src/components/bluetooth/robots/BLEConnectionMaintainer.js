@@ -53,7 +53,9 @@ class BLEConnectionMaintainer extends React.Component {
 
 
     initTimer = () => {
-        console.log('BLEConnectionMaintainer: initTimer occured');
+        if (__DEV__){
+            console.log('BLEConnectionMaintainer: initTimer occured');
+        }
         if (this.intervalId != undefined){
             return;
         }
@@ -71,10 +73,14 @@ class BLEConnectionMaintainer extends React.Component {
           self.props.connectToSensor(sId);
           BleManager.connect(sId)
             .then((peripheralInfo) => {
-              console.log('Sensor [' + sId + '] is connected. Starting notification enabling...');
+              if (__DEV__){
+                  console.log('Sensor [' + sId + '] is connected. Starting notification enabling...');
+              }
               BleManager.startNotification(sId, constants.HEART_RATE_SERVICE_UUID, constants.HEART_RATE_CHARACTERISTIC_UUID)
                 .then(() => {
-                  console.log('notification enabled, peripheralInfo = ', peripheralInfo);
+                  if (__DEV__){
+                      console.log('notification enabled, peripheralInfo = ', peripheralInfo);
+                  }
                   self.props.connectToSensorSuccess(sId, peripheralInfo);
               })
               .catch((error) => {
@@ -94,7 +100,9 @@ class BLEConnectionMaintainer extends React.Component {
             return;
         }
         if (sensors.length > 0){
-            console.log('sensors to connect - ', sensors);
+            if (__DEV__){
+                console.log('sensors to connect - ', sensors);
+            }
         }
         let can = canStartConnectingNow(this.props.bluetooth);
         if (can == false){

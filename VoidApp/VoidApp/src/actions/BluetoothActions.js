@@ -47,7 +47,9 @@ export function connectToSensor(sensorId){
     }
 }
 export function connectToSensorSuccess(sensorId, data){
-    console.log('actions: connectToSensorSuccess: sensorId, data = ', sensorId, data);
+    if (__DEV__){
+        console.log('actions: connectToSensorSuccess: sensorId, data = ', sensorId, data);
+    }
     return {
       type: types.BLE_MANAGER_CONNECT_TO_SENSOR_SUCCESS,
       sensorId: sensorId,

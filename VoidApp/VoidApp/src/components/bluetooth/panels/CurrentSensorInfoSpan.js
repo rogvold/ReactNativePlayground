@@ -15,6 +15,7 @@ import {
   NativeAppEventEmitter,
   Platform,
   PermissionsAndroid,
+  StyleSheet,
   Modal
 } from 'react-native';
 
@@ -74,26 +75,51 @@ class CurrentSensorInfoSpan extends React.Component {
     }
 
 
-    render() {
-      let bl = this.props.bluetooth;
-      let sensorId = this.props.sensorId;
-      let data = this.getLastData();
-      // console.log('CurrentSensorInfoSpan: render: data = ', data);
+    render =  () => {
+        let bl = this.props.bluetooth;
+        let sensorId = this.props.sensorId;
+        let data = this.getLastData();
+        let status = this.getStatus();
+        // console.log('CurrentSensorInfoSpan: render: data = ', data);
 
-      let text = 'CONNECTED';
-      if (data != undefined){
-          text = data.hr;
-      }
-      return (
-        <Text style={{fontSize: 18}} >
-            {text}
-        </Text>
-      );
+        let text = 'CONNECTED';
+        let st = [styles.normal];
 
+        if (status == undefined){
+            text = 'NOT CONNECTED';
+        }else {
+            text = status;
+        }
 
+        if (data != undefined){
+            text = data.hr;
+            st.push(styles.ok);
+        }
+
+        return (
+            <Text style={st} >
+                {text}
+            </Text>
+        );
     }
 
 }
+
+
+var styles = StyleSheet.create({
+    container: {
+
+    },
+
+    normal: {
+        fontSize: 18
+    },
+
+    ok: {
+        color: 'green'
+    }
+
+});
 
 const mapStateToProps = (state) => {
     return {

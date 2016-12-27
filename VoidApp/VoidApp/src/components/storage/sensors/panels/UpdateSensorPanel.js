@@ -24,6 +24,8 @@
 
  import UpdateSensorForm from '../forms/UpdateSensorForm'
 
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+
  class UpdateSensorPanel extends React.Component {
 
      static defaultProps = {
@@ -45,6 +47,7 @@
      //ES5 - componentWillMount
      constructor(props) {
          super(props);
+         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
      }
 
      componentDidMount() {

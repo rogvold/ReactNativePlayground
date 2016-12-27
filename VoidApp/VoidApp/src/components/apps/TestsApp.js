@@ -1,5 +1,5 @@
 /**
- * Created by sabir on 23.12.16.
+ * Created by sabir on 25.12.16.
  */
 
 import React, {PropTypes} from 'react';
@@ -9,6 +9,9 @@ import { bindActionCreators } from 'redux';
 import * as actions from '../../actions/SensorsActions'
 
 import SensorsPanel from '../storage/sensors/panels/SensorsPanel'
+
+import SensorsCardsPanel from '../cardio_test/cards/SensorsCardsPanel'
+import CardioTestsPanel from '../cardio_test/panels/CardioTestsPanel'
 
 import {
     AppRegistry,
@@ -21,7 +24,7 @@ import {
 
 
 
-class SensorsApp extends React.Component {
+class TestsApp extends React.Component {
 
     static defaultProps = {}
 
@@ -50,15 +53,28 @@ class SensorsApp extends React.Component {
         const {sensors} = this.props;
 
         return (
-            <View style={{padding: 22}} >
+            <View style={styles.container} >
 
-                <SensorsPanel sensors={sensors} />
+                <CardioTestsPanel />
 
             </View>
         );
     }
 
 }
+
+
+var styles = StyleSheet.create({
+    container: {
+        paddingTop: 22,
+        // backgroundColor: '#EEEEEE',
+        // backgroundColor: '#00459F',
+        // backgroundColor: '#ECF0F1',
+        backgroundColor: 'black',
+        flex: 1
+    },
+
+});
 
 let getSensors = (map) => {
     let arr = [];
@@ -69,6 +85,9 @@ let getSensors = (map) => {
         if (a.id > b.id) {return 1}
         if (a.id < b.id) {return -1}
         return 0;
+    });
+    arr = arr.filter((a) => {
+        return (a.name != a.displayName);
     });
     return arr;
 }
@@ -88,6 +107,6 @@ const mapDispatchToProps = (dispatch) => {
 
 
 
-SensorsApp = connect(mapStateToProps, mapDispatchToProps)(SensorsApp)
+TestsApp = connect(mapStateToProps, mapDispatchToProps)(TestsApp)
 
-export default SensorsApp;
+export default TestsApp;

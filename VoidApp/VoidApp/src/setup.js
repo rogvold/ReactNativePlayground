@@ -29,6 +29,8 @@ import {reducer} from './reducers'
 
 const loggerMiddleware = createLogger()
 
+import * as sensorsActions from './actions/SensorsActions'
+
 const store = createStore(
     reducer,
     // applyMiddleware(thunkMiddleware)
@@ -41,7 +43,9 @@ export default function setup() {
   class RootApp extends React.Component{
 
       render() {
-          console.log('rendering app');
+          if (__DEV__){
+              console.log('rendering app');
+          }
           return (
               <Provider store={store}>
 
@@ -55,11 +59,13 @@ export default function setup() {
 
   // ParseAPI.initParse();
 
-  // store.dispatch(usersActions.initializeAuthorization());
+  store.dispatch(sensorsActions.loadSensors());
 
   return RootApp;
 
 }
+
+
 
 
 // AppRegistry.registerComponent('RootApp', () => RootApp);

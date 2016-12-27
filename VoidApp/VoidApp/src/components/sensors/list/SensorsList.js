@@ -1,6 +1,5 @@
-
-
 import React, { Component, PropTypes} from 'react';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -12,13 +11,17 @@ import {
   PermissionsAndroid
 } from 'react-native';
 
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-export default class VoidApp extends Component {
+
+export default class SensorsList extends Component {
 
   static defaultProps = {
 
       onSensorClick: (sensor) => {
-          console.log('clicked on sensor = ', sensor);
+          if (__DEV__){
+              console.log('clicked on sensor = ', sensor);
+          }
       }
 
   }
@@ -28,11 +31,16 @@ export default class VoidApp extends Component {
       onSensorClick: PropTypes.func
   }
 
+  constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  }
+
   onSensorClick = (sensor) => {
       this.props.onSensorClick(sensor);
   }
 
-  render() {
+  render = () => {
     var list = this.props.sensors;
 
     return (

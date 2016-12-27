@@ -23,7 +23,9 @@ class SensorsList extends React.Component {
     static defaultProps = {
         sensors: [],
         onSensorClick: (s) => {
-            console.log('onClick', s);
+            if (__DEV__){
+                console.log('onClick', s);
+            }
         }
     }
 
@@ -49,7 +51,6 @@ class SensorsList extends React.Component {
     render = () => {
         let {sensors} = this.props;
 
-
         return (
             <View>
 
@@ -59,7 +60,10 @@ class SensorsList extends React.Component {
                     return (
                         <View key={sensor.id} >
                             <TouchableHighlight style={styles.listItem} onPress={onPress} >
-                                <Text style={styles.listItemText}> {number} ) {sensor.id} - {sensor.name}</Text>
+                                <Text style={styles.listItemText}>
+                                    {number} ) {sensor.name} - {' '}
+                                    {sensor.displayName == undefined ? 'N/A' : sensor.displayName}
+                                </Text>
                             </TouchableHighlight>
                         </View>
                     )

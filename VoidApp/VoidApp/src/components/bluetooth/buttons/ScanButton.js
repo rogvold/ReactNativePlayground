@@ -31,7 +31,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 class ScanButton extends React.Component {
 
     static defaultProps = {
-        scanTimeout: 10
+        scanTimeout: 5
     }
 
     static propTypes = {

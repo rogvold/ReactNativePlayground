@@ -11,6 +11,7 @@ import {
     TouchableHighlight,
     NativeAppEventEmitter,
     Platform,
+    Modal,
     BackAndroid,
     ActivityIndicator
 } from 'react-native';
@@ -36,7 +37,9 @@ import * as actions from '../../../../actions/SensorsActions'
 
      static propTypes = {}
 
-     state = {}
+     state = {
+         selectedSensorId: undefined
+     }
 
      //ES5 - componentWillMount
      constructor(props) {
@@ -54,17 +57,51 @@ import * as actions from '../../../../actions/SensorsActions'
 
      render = () => {
          const {sensors} = this.props;
+         const {selectedSensorId} = this.state;
 
          return (
              <View style={styles.container} >
 
-                 <Text>
-                     this is sensors panel
-                 </Text>
+                 <View style={styles.headerPlaceholder} >
+                     <Text style={styles.header} >
+                         Sensors
+                     </Text>
+                 </View>
 
-                 <UpdateSensorPanel sensorId={'sabir'} />
+                 {sensors.length == 0 ?
+                     <View style={styles.noSensorsPlaceholder}>
+                         <Text style={styles.noSensorsText} >
+                             No sensors found. Please run scanning.
+                         </Text>
+                     </View> :
+                     <SensorsList sensors={sensors} onSensorClick={(s) => {this.setState({selectedSensorId: s.id})}} />
+                 }
 
-                 <SensorsList sensors={sensors} />
+
+
+                 <Modal
+                     animationType={"slide"}
+                     transparent={false}
+                     visible={(selectedSensorId != undefined)}
+                     onRequestClose={() => {alert("Modal has been closed.")}}
+                 >
+                         <View style={styles.dialogPlaceholder} >
+
+                             <UpdateSensorPanel
+                                 onUpdated={() => {this.setState({selectedSensorId: undefined})}}
+                                 sensorId={selectedSensorId} />
+
+                             <TouchableHighlight style={styles.closeButton} onPress={() => {this.setState({selectedSensorId: undefined})}}>
+                                 <Text style={{textAlign: 'center'}} >
+                                     Cancel
+                                 </Text>
+                             </TouchableHighlight>
+
+                         </View>
+
+                 </Modal>
+
+
 
              </View>
          )
@@ -77,6 +114,37 @@ import * as actions from '../../../../actions/SensorsActions'
          marginTop: 10,
          // flex: 1,
      },
+
+     closeButton: {
+         padding: 10,
+         borderWidth: 1,
+         borderColor: 'black',
+         height: 40,
+         marginTop: 10,
+         borderRadius: 3
+     },
+
+     dialogPlaceholder: {
+         padding: 22,
+         paddingTop: 30
+     },
+
+     headerPlaceholder: {
+         padding: 10,
+     },
+
+     header: {
+         textAlign: 'center',
+         fontSize: 18
+     },
+
+     noSensorsPlaceholder: {
+        padding: 10
+     },
+
+     noSensorsText: {
+        textAlign: 'center'
+     }
 
  });
 

@@ -61,10 +61,14 @@ class ConnectToSensorButton extends React.Component {
 
         BleManager.connect(sensorId)
           .then((peripheralInfo) => {
-            console.log('Sensor [' + sensorId + '] is connected. Starting notification enabling...');
+            if (__DEV__){
+                console.log('Sensor [' + sensorId + '] is connected. Starting notification enabling...');
+            }
             BleManager.startNotification(sensorId, constants.HEART_RATE_SERVICE_UUID, constants.HEART_RATE_CHARACTERISTIC_UUID)
               .then(() => {
-                console.log('notification enabled, peripheralInfo = ', peripheralInfo);
+                if (__DEV__){
+                    console.log('notification enabled, peripheralInfo = ', peripheralInfo);
+                }
                 self.props.connectToSensorSuccess(sensorId, peripheralInfo);
             })
             .catch((error) => {
